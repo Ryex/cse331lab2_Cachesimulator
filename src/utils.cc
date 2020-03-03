@@ -1,6 +1,16 @@
 #include <iomanip>
 #include <sstream>
 
+/*************************************************************************
+ *  filename:  utils.cc
+ *  description:  Utility functions.
+ *  authors:  Powers, Rachel
+ *  class:CSE 331
+ *  instructor:  Zheng
+ *  assignment:  Lab #2
+ *  assigned:  2/20/2020/due:3/5/2020
+ ************************************************************************/
+
 #include "../include/utils.h"
 
 

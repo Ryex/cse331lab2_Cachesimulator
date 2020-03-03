@@ -1,3 +1,12 @@
+/*************************************************************************
+ *  filename:  cachesim.h
+ *  description:  Stuct and forward declarations.
+ *  authors:  Powers, Rachel
+ *  class:CSE 331
+ *  instructor:  Zheng
+ *  assignment:  Lab #2
+ *  assigned:  2/20/2020/due:3/5/2020
+ ************************************************************************/
 #ifndef cachesim_h
 #define cachesim_h
 
@@ -63,10 +72,6 @@ T to_policy(int i) {
             return static_cast<T>(i);
     }
     throw policy_conversion_err();
-}
-
-bool power_2_non_neg(int i) {
-    return i > 0 && (i & (i - 1)) == 0;
 }
 
 struct Config {

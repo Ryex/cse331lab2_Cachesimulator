@@ -20,7 +20,7 @@ all: cachesim
 $(ODIR):
 	mkdir $(ODIR)
 
-$(ODIR)/%.o: $(ODIR) $(SDIR)/%.cc $(DEPS) 
+$(ODIR)/%.o: $(SDIR)/%.cc $(DEPS) $(ODIR)
 	$(CC) -c -o $@ $< $(CXXFLAGS)
 
 cachesim: $(OBJ)
