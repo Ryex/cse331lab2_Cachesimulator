@@ -1,4 +1,5 @@
 .vscode/
 obj/
+build/
 *.pdf
 cachesim

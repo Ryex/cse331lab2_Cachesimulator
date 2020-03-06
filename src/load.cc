@@ -20,6 +20,8 @@ Access_Type to_actype(char c) {
     throw actype_conversion_err();
 }
 
+const int ADDRESS_SIZE = 32;
+
 Config read_conf(std::string &conf_filename) {
     Config conf;
     
@@ -65,23 +67,25 @@ Config read_conf(std::string &conf_filename) {
         exit(2);
     }
 
-    conf.line_size = lines[0];
-    if (!power_2_non_neg(conf.line_size)) {
+    
+    if (!power_2_non_neg(lines[0])) {
         std::cerr << "Config file [" << conf_filename << "] invalid! line 1, line_size: must be a positive power of 2." << std::endl;
         exit(2);
     }
+    conf.line_size = lines[0];
 
-    conf.associativity = lines[1];
-    if (!power_2_non_neg(conf.associativity)) {
+    
+    if (!power_2_non_neg(lines[1])) {
         std::cerr << "Config file [" << conf_filename << "] invalid! line 2, associativity: must be a positive power of 2." << std::endl;
         exit(2);
     }
-
-    conf.data_size = lines[2];
-    if (!power_2_non_neg(conf.data_size)) {
+    conf.associativity = lines[1];
+    
+    if (!power_2_non_neg(lines[2])) {
         std::cerr << "Config file [" << conf_filename << "] invalid! line 3, data_size: must be a positive power of 2." << std::endl;
         exit(2);
     }
+    conf.data_size = lines[2] * 1024;
 
     try {
         conf.replacement = to_policy<Replace_Policy>(lines[3]);
@@ -98,6 +102,8 @@ Config read_conf(std::string &conf_filename) {
         std::cerr << "Config file [" << conf_filename << "] invalid! line 6, allocate policy: must be 0 or 1." << std::endl;
         exit(2); 
     }
+
+    conf.address_size = ADDRESS_SIZE;
 
     return conf;
 }

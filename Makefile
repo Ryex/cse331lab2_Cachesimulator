@@ -4,7 +4,7 @@ CXXFLAGS := -pedantic-errors -Wall -Wextra -Werror
 LDFLAGS  := -L/usr/lib  -lstdc++ -lm
 OBJ_DIR  := ./obj
 APP_DIR  := ./build
-TARGET   := cachesim
+TARGET   := cache-sim
 INCLUDE  := -Iinclude/
 SRC      := $(wildcard src/*.cc)
 

@@ -10,40 +10,30 @@
 
 #include "cachesim.h"
 
-void print_usage() {
-    const char *usage = "Usage: ./cachesim conf_file trace_file\n";
-    std::cout << usage;
+Address_Config build_address_config(Config &config) {
+    Address_Config aconf;
+
+    aconf.cache_bits = bit_count(config.data_size);
+    aconf.line_bits = bit_count(config.line_size);
+    aconf.set_bits = aconf.cache_bits - aconf.line_bits;
+    aconf.num_blocks = std::pow(2, aconf.set_bits);
+    if (config.associativity > 1) {
+        aconf.set_bits = bit_count(aconf.num_blocks / config.associativity);
+        aconf.num_blocks = std::pow(2, aconf.set_bits);
+    }
+    aconf.num_blocks = std::pow(2, aconf.set_bits);
+    aconf.tag_bits = config.address_size - aconf.line_bits - aconf.set_bits;
+
+    return aconf;
 }
 
-int main (int argc, char *argv[]) {
+Address decompose_address(unsigned int address, Address_Config &aconf) {
 
-    std::vector<std::string> args;
-    std::string current_exec_name = argv[0]; // Name of the current exec program
+    Address addr;
+    addr.tag = address >> (aconf.line_bits + aconf.set_bits);
+    addr.set_index = (address << aconf.tag_bits) >> (aconf.tag_bits + aconf.line_bits);
+    addr.block_offset = address << (aconf.tag_bits + aconf.set_bits);
 
-    if (argc > 1) {
-        args.assign(argv + 1, argv + argc);
-    }
-
-    if (args.size() != 2) {
-        print_usage();
-        exit(1);
-    }
-
-    std::string conf_file = args[0];
-    std::string trace_file = args[1];
-
-    Config conf = read_conf(conf_file);
-
-    std::cout << conf;
-
-    Trace_Vec* trace = read_trace(trace_file);
-
-
-    for (int i = 0; i < 20; i++) {
-        std::cout << i << ": " << trace->at(i);
-    }
-
-    delete trace;
-    return 0;
+    return addr;
 
 }

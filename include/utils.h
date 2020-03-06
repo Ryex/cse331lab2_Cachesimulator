@@ -13,6 +13,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <cmath>
 
 std::string& ltrim(std::string& str, const std::string& chars = "\t\n\v\f\r ");
  
@@ -33,5 +34,8 @@ std::string int_to_hex( T i )
          << std::hex << i;
   return stream.str();
 }
+
+unsigned int bit_count(unsigned int n);
+unsigned int count_bits(unsigned int n);
 
 #endif // !CACHESIM_UTILS_H
