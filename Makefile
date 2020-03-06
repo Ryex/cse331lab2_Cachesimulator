@@ -1,35 +1,39 @@
-IDIR =./include
-SDIR=./src
-CC=g++
-CXXFLAGS=
+# TODO fix makefile
+CXX      := g++
+CXXFLAGS := -pedantic-errors -Wall -Wextra -Werror
+LDFLAGS  := -L/usr/lib  -lstdc++ -lm
+OBJ_DIR  := ./obj
+APP_DIR  := ./build
+TARGET   := cachesim
+INCLUDE  := -Iinclude/
+SRC      := $(wildcard src/*.cc)
 
+OBJECTS  := $(SRC:%.cc=$(OBJ_DIR)/%.o)
 
-_DEPS = cachesim.h utils.h
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+all: build $(APP_DIR)/$(TARGET)
 
-_OBJ = cachesim.o utils.o
-OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+$(OBJ_DIR)/%.o: %.cc
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -o $@ $(LDFLAGS)
 
-LIBS=
+$(APP_DIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET) $^ $(LDFLAGS)
 
-ODIR=obj
+.PHONY: all build clean debug release
 
+build:
+	@mkdir -p $(APP_DIR)
+	@mkdir -p $(OBJ_DIR)
 
-all: cachesim
+debug: CXXFLAGS += -DDEBUG -g
+debug: all
 
-$(ODIR):
-	mkdir $(ODIR)
-
-$(ODIR)/%.o: $(SDIR)/%.cc $(DEPS) $(ODIR)
-	$(CC) -c -o $@ $< $(CXXFLAGS)
-
-cachesim: $(OBJ)
-	$(CC) -o $@ $^ $(CXXFLAGS) $(LIBS)
-
-.PHONY: clean
+release: CXXFLAGS += -O2
+release: all
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ cachesim
-	rmdir $(ODIR)
+	-@rm -rvf $(OBJ_DIR)/*
+	-@rm -rvf $(APP_DIR)/*
 
 

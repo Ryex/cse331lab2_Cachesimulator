@@ -1,6 +1,3 @@
-#include <iomanip>
-#include <sstream>
-
 /*************************************************************************
  *  filename:  utils.cc
  *  description:  Utility functions.
@@ -11,7 +8,7 @@
  *  assigned:  2/20/2020/due:3/5/2020
  ************************************************************************/
 
-#include "../include/utils.h"
+#include "utils.h"
 
 
 std::string& ltrim(std::string& str, const std::string& chars)

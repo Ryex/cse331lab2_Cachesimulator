@@ -7,10 +7,12 @@
  *  assignment:  Lab #2
  *  assigned:  2/20/2020/due:3/5/2020
  ************************************************************************/
-#ifndef cachsim_utils_h
-#define cachsim_utils_h 
+#ifndef CACHESIM_UTILS_H
+#define CACHESIM_UTILS_H 
 
 #include <string>
+#include <sstream>
+#include <iomanip>
 
 std::string& ltrim(std::string& str, const std::string& chars = "\t\n\v\f\r ");
  
@@ -32,4 +34,4 @@ std::string int_to_hex( T i )
   return stream.str();
 }
 
-#endif
+#endif // !CACHESIM_UTILS_H
