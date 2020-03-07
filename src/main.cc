@@ -10,6 +10,12 @@
 
 #include "main.h"
 
+#ifdef DEBUG
+const bool VERBOSE = true;
+#else
+const bool VERBOSE = false;
+#endif // DEBUG
+
 void print_usage() {
     const char *usage = "Usage: ./cachesim conf_file trace_file\n";
     std::cout << usage;
@@ -38,16 +44,39 @@ int main (int argc, char *argv[]) {
 
     Address_Config aconf = build_address_config(conf);
 
-    std::cout << aconf;
 
+    std::cout << aconf;
+    
     Trace_Vec* trace = read_trace(trace_file);
 
+    Cache* cache = build_cache(aconf);
 
-    for (int i = 0; i < 20; i++) {
-        std::cout << i << ": " << trace->at(i);
-    }
+    Cache_Sim_Results results = run_cache_sim(trace, cache, aconf, conf);
 
+    std::cout << results;
+
+    clean_cache(cache);
+    delete cache;
     delete trace;
+
+    write_out_file(trace_file, results);
+
     return 0;
 
+}
+
+void write_out_file(std::string filename, Cache_Sim_Results &results) {
+    std::string outfilename = fs::path(filename).filename().string() + ".out";
+
+
+    std::cout << "writing output to [" << outfilename << "]" << std::endl;
+    std::ofstream out_file(outfilename);
+
+    out_file << results.hit_rate << std::endl;
+    out_file << results.load_hit_rate << std::endl;
+    out_file << results.store_hit_rate << std::endl;
+    out_file << results.run_cycles << std::endl;
+    out_file << results.avg_access << std::endl;
+
+    out_file.close();
 }

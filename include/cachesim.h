@@ -11,16 +11,22 @@
 #define CACHESIM_SIM_H
 
 #include <cmath>
+#include <random>
+#include <iostream> 
+#include <climits>
 
 #include "structs.h"
 #include "utils.h"
 
-Cache* build_cache(Config &config);
-
 Address_Config build_address_config(Config &config);
 
-Address decompose_address(unsigned int address, Config &config );
+Address decompose_address(unsigned int address, Address_Config &aconf);
 
+Cache* build_cache(Address_Config &aconf);
+
+void clean_cache(Cache *cache);
+
+Cache_Sim_Results run_cache_sim(const Trace_Vec *const trace, Cache *cache, Address_Config &aconf, Config &conf);
 
 
 #endif // !CACHESIM_SIM_H

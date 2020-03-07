@@ -30,7 +30,7 @@ std::string& trim(std::string& str, const std::string& chars)
 
 
 unsigned int bit_count(unsigned int n) {
-    return (int)std::log2(n)+1;
+    return (int)std::log2(n);
 }
 
 unsigned int count_bits(unsigned int i) {

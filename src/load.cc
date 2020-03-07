@@ -85,7 +85,7 @@ Config read_conf(std::string &conf_filename) {
         std::cerr << "Config file [" << conf_filename << "] invalid! line 3, data_size: must be a positive power of 2." << std::endl;
         exit(2);
     }
-    conf.data_size = lines[2] * 1024;
+    conf.data_size = lines[2];
 
     try {
         conf.replacement = to_policy<Replace_Policy>(lines[3]);
