@@ -163,6 +163,8 @@ inline std::ostream& operator<<(std::ostream& os, const Address_Config& conf) {
 
 
 struct Cache_Sim_Results {
+    int loads;
+    int stores;
     int hits;
     int misses;
     double hit_rate;
@@ -182,6 +184,8 @@ struct Cache_Sim_Results {
 
 inline std::ostream& operator<<(std::ostream& os, const Cache_Sim_Results& results) {
     os << "Cache_Sim_Results {" << std::endl
+       << "    loads: " << results.loads << std::endl
+       << "    stores: " << results.stores << std::endl
        << "    hits: " << results.hits << std::endl
        << "    misses: " << results.misses << std::endl
        << "    hit_rate: " << results.hit_rate << std::endl

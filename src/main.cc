@@ -17,7 +17,7 @@ const bool VERBOSE = false;
 #endif // DEBUG
 
 void print_usage() {
-    const char *usage = "Usage: ./cachesim conf_file trace_file\n";
+    const char *usage = "Usage: ./cache-sim conf_file trace_file\n";
     std::cout << usage;
 }
 

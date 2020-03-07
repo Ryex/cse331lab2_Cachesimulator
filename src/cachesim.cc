@@ -85,6 +85,8 @@ Cache_Sim_Results run_cache_sim(const Trace_Vec *const trace, Cache *cache, Addr
 
     Cache_Sim_Results results;
 
+    results.loads = 0;
+    results.stores = 0;
     results.hits = 0;
     results.misses = 0;
     results.load_hits = 0;
@@ -118,6 +120,14 @@ Cache_Sim_Results run_cache_sim(const Trace_Vec *const trace, Cache *cache, Addr
         Cache_Set &set = cache->sets->at(addr.set_index);
 
         set.oldest_access = UINT_MAX;
+        switch (tl.access_type) {
+            case Access_Type::LOAD:
+                results.loads += 1;
+                break;
+            case Access_Type::STORE:
+                results.stores += 1;
+                break;
+        }
 
         for (unsigned int j = 0; j < aconf.lines_per_set; j++)
         {
