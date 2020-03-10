@@ -10,12 +10,6 @@
 
 #include "main.h"
 
-#ifdef DEBUG
-const bool VERBOSE = true;
-#else
-const bool VERBOSE = false;
-#endif // DEBUG
-
 void print_usage() {
     const char *usage = "Usage: ./cache-sim conf_file trace_file\n";
     std::cout << usage;

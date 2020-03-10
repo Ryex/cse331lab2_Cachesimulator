@@ -37,17 +37,17 @@ inline std::ostream& operator<<(std::ostream& os, const Replace_Policy& p ) {
 }
 
 enum Alloc_Policy {
-    NO_WRITE = 0,
-    WRITE = 1
+    NO_WRITE_ALLOC = 0,
+    WRITE_ALLOC = 1
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Alloc_Policy& p) {
     switch (p)
     {
-    case Alloc_Policy::NO_WRITE:
+    case Alloc_Policy::NO_WRITE_ALLOC:
         os << "NO_WRITE";
         break;
-    case Alloc_Policy::WRITE:
+    case Alloc_Policy::WRITE_ALLOC:
         os << "WRITE";
         break;
     default:

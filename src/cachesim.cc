@@ -147,7 +147,7 @@ Cache_Sim_Results run_cache_sim(const Trace_Vec *const trace, Cache *cache, Addr
                         break;
                     case Access_Type::STORE:
                         results.store_hits += 1;
-                        if (conf.allocate == Alloc_Policy::WRITE)
+                        if (conf.allocate == Alloc_Policy::WRITE_ALLOC)
                         {
                             set.blocks->at(j).dirty = true;
                         }
@@ -186,7 +186,7 @@ Cache_Sim_Results run_cache_sim(const Trace_Vec *const trace, Cache *cache, Addr
                 break;
             case Access_Type::STORE:
                 results.store_misses += 1;
-                if (conf.allocate == Alloc_Policy::WRITE)
+                if (conf.allocate == Alloc_Policy::WRITE_ALLOC)
                 {
                     load = true;
                 }
@@ -206,7 +206,12 @@ Cache_Sim_Results run_cache_sim(const Trace_Vec *const trace, Cache *cache, Addr
                     set.blocks->at(empty).tag = addr.tag;
                     set.blocks->at(empty).valid = 1;
                     set.blocks->at(empty).last_access = access;
-                    set.blocks->at(empty).dirty = false;
+                    if (conf.allocate == Alloc_Policy::WRITE_ALLOC && tl.access_type == Access_Type::STORE)
+                    {
+                        set.blocks->at(empty).dirty = true;
+                    } else {
+                        set.blocks->at(empty).dirty = false;
+                    }
                     access++;
                 }
                 else if (empty < 0)
@@ -229,14 +234,19 @@ Cache_Sim_Results run_cache_sim(const Trace_Vec *const trace, Cache *cache, Addr
                         }
                         break;
                     }
-                    if (conf.allocate == Alloc_Policy::WRITE && set.blocks->at(replace).dirty)
+                    if (conf.allocate == Alloc_Policy::WRITE_ALLOC && set.blocks->at(replace).dirty)
                     {
                         results.write_backs += 1;
                     }
                     set.blocks->at(replace).tag = addr.tag;
                     set.blocks->at(replace).valid = 1;
                     set.blocks->at(replace).last_access = access;
-                    set.blocks->at(replace).dirty = false;
+                    if (conf.allocate == Alloc_Policy::WRITE_ALLOC && tl.access_type == Access_Type::STORE)
+                    {
+                        set.blocks->at(replace).dirty = true;
+                    } else {
+                        set.blocks->at(replace).dirty = false;
+                    }
                     access++;
                 }
             }
